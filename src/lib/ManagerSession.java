@@ -62,10 +62,15 @@ public class ManagerSession extends Session implements IManagerSession {
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType) {
 		int reservations = 0;
 		for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
-			try{
-				if(crc.getName().equals(carRentalName))
-					return crc.getNumberOfReservationsForCarType(carType);
-			}
+			
+				try {
+					if(crc.getName().equals(carRentalName))
+						return crc.getNumberOfReservationsForCarType(carType);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 		}
 		return 0;
 	}
