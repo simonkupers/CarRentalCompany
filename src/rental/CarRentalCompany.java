@@ -246,6 +246,14 @@ public class CarRentalCompany implements ICarRentalCompany {
 		return (CarType) key;
 	}
 	
+	public List<Reservation> getReservations(){
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		for(Car car: cars){
+			reservations.addAll(car.getReservations());
+		}
+		return reservations;
+	}
+	
 
 
 }
