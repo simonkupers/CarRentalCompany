@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import rental.CarRentalCompany;
+import rental.CarType;
 import rental.ICarRentalCompany;
 
 public class ManagerSession extends Session implements IManagerSession {
@@ -80,6 +81,12 @@ public class ManagerSession extends Session implements IManagerSession {
 			
 		}
 		return 0;
+	}
+
+	@Override
+	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) {
+		ICarRentalCompany crc = ram.getCarRentalCompany(carRentalCompanyName);
+		return crc.getMostPopularCarTypeIn(year);
 	}
 	
 }
