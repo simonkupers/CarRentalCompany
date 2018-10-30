@@ -112,7 +112,13 @@ public class ManagerSession extends Session implements IManagerSession {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return crc.getMostPopularCarTypeIn(year);
+		try {
+			return crc.getMostPopularCarTypeIn(year);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

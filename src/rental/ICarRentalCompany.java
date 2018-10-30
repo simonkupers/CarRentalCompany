@@ -26,10 +26,10 @@ public interface ICarRentalCompany extends Remote {
 	
 	public Collection<CarType> getAllCarTypes() throws RemoteException;
 	
-	public List<String> getRegions();
+	public List<String> getRegions() throws RemoteException ;
 	
-	public List<String> getBestClients();
+	public List<String> getBestClients() throws RemoteException;
 	
-	public CarType getMostPopularCarTypeIn(int year);
+	public CarType getMostPopularCarTypeIn(int year) throws RemoteException;
 	
 }

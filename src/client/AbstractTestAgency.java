@@ -142,6 +142,7 @@ public abstract class AbstractTestAgency<ReservationSession, ManagerSession> ext
         if (cmd.equals("BA") || cmd.equals("BB") || cmd.equals("BF")) {
         	session = sessions.get(name);
 	        if (session == null) {
+	        	
 	            throw new IllegalArgumentException("No session");
 	        }
         }

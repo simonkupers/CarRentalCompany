@@ -54,7 +54,12 @@ public class RentalAgencyManager implements IRentalAgencyManager{
 	public Set<String> getBetsClients(){
 		Set<String> clients = new HashSet<String>();
 		for(ICarRentalCompany crc:crcs){
-			clients.addAll(crc.getBestClients());
+			try {
+				clients.addAll(crc.getBestClients());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return clients;
 	}

@@ -24,5 +24,7 @@ public interface IReservationSession extends ISession{
 	public List<CarType> getAvailableCarTypes()throws RemoteException;
 
 	public CarType getCheapestCarType(Date start, Date end, String region)throws RemoteException;
+	
+	public void checkForAvailableCarTypes(Date start, Date end) throws RemoteException;
 
 }

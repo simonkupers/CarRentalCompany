@@ -10,8 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
+
 import rental.CarRentalCompany;
 import lib.IManagerSession;
+import lib.IReservationSession;
 import lib.ISessionManager;
 import lib.ManagerSession;
 import lib.ReservationSession;
@@ -24,7 +27,7 @@ import rental.ReservationConstraints;
 import rental.RentalServer.CrcData;
 import rental.RentalServer;
 
-public class Client extends AbstractTestManagement {
+public class Client extends AbstractTestManagement<IReservationSession, IManagerSession> {
 	
 	/********
 	 * MAIN *
@@ -34,11 +37,10 @@ public class Client extends AbstractTestManagement {
 	
 	public static void main(String[] args) throws Exception {
 		System.setSecurityManager(null);
-				
 		String carRentalCompanyName = "Hertz";
 		
 		// An example reservation scenario on car rental company 'Hertz' would be...
-		Client client = new Client("simpleTrips", carRentalCompanyName);
+		Client client = new Client("trips", carRentalCompanyName);
 		
 		
 		// An example making car rental companies with a ManagerSession
@@ -71,75 +73,79 @@ public class Client extends AbstractTestManagement {
 	}
 
 	@Override
-	protected Set<String> getBestClients(Object ms) throws Exception {
-		ManagerSession managerSession = (ManagerSession) ms;
+	protected Set<String> getBestClients(IManagerSession ms) throws Exception {
+		IManagerSession managerSession = (IManagerSession) ms;
 		return managerSession.getBestClients();
 	}
 
 	@Override
-	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
-		ReservationSession reservationSession = (ReservationSession)session;
+	protected String getCheapestCarType(IReservationSession session, Date start, Date end, String region) throws Exception {
+		IReservationSession reservationSession = (IReservationSession)session;
 		return reservationSession.getCheapestCarType(start, end, region).getName();
 	}
 
 	@Override
-	protected CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year) throws Exception {
-		ManagerSession managerSession = (ManagerSession) ms;
+	protected CarType getMostPopularCarTypeIn(IManagerSession ms, String carRentalCompanyName, int year) throws Exception {
+		IManagerSession managerSession = (IManagerSession) ms;
 		return managerSession.getMostPopularCarTypeIn(carRentalCompanyName, year);
 		
 	}
 
 	@Override
-	protected Object getNewReservationSession(String name) throws Exception {
+	protected IReservationSession getNewReservationSession(String name) throws Exception {
+		
 		Registry registry = null;
 		registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createReservationSession(name);
-		return registry.lookup(name + "Reservation");
+		return (IReservationSession) registry.lookup(name + "Reservation");
 	}
 
 	@Override
-	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
+	protected IManagerSession getNewManagerSession(String name, String carRentalName) throws Exception {
 		Registry registry = null;
 		registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createManagerSession(name, carRentalName);
-		return registry.lookup(name + "Manager");
+		return (IManagerSession) registry.lookup(name + "Manager");
 	}
 
 	@Override
-	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		ReservationSession reservationSession = (ReservationSession)session;
+	protected void checkForAvailableCarTypes(IReservationSession session, Date start, Date end) throws Exception {
+		IReservationSession reservationSession = (IReservationSession)session;
 		reservationSession.checkForAvailableCarTypes(start, end);
 	}
 
 	@Override
-	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
+	protected void addQuoteToSession(IReservationSession session, String name, Date start, Date end, String carType, String region)
 			throws Exception {
-		ReservationSession reservationSession = (ReservationSession) session;
+		
+		IReservationSession reservationSession = (IReservationSession) session;
 		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
 		reservationSession.createQuote(constraints, name);
 	}
 
 	@Override
-	protected List<Reservation> confirmQuotes(Object session, String name) throws Exception {
-		ReservationSession reservationSession = (ReservationSession) session;
+	protected List<Reservation> confirmQuotes(IReservationSession session, String name) throws Exception {
+		IReservationSession reservationSession = (IReservationSession) session;
 		return reservationSession.confirmQuotes();
 	}
 
 	@Override
-	protected int getNumberOfReservationsBy(Object ms, String clientName) throws Exception {
-		ManagerSession managerSession = (ManagerSession) ms;
+	protected int getNumberOfReservationsBy(IManagerSession ms, String clientName) throws Exception {
+		IManagerSession managerSession = (IManagerSession) ms;
 		return managerSession.getNumberOfReservationsBy(clientName);
 		
 	}
 
 	@Override
-	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		ManagerSession managerSession = (ManagerSession) ms;
+	protected int getNumberOfReservationsForCarType(IManagerSession ms, String carRentalName, String carType) throws Exception {
+		IManagerSession managerSession = (IManagerSession) ms;
 		managerSession.getNumberOfReservationsForCarType(carRentalName, carType);
 		return 0;
 	}
+
+
 
 
 
