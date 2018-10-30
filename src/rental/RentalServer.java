@@ -27,7 +27,7 @@ public class RentalServer {
 		RentalAgencyManager rentalAgencyManager = new RentalAgencyManager();
 		IRentalAgencyManager stub = (IRentalAgencyManager) UnicastRemoteObject.exportObject(rentalAgencyManager, 0);
 
-		Registry registry = LocateRegistry.getRegistry();
+		Registry registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 		registry.rebind("rentalAgencyManager", stub);
 
 		// create a manager session and register Hertz and Docks as car rental companies

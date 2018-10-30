@@ -38,7 +38,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	public synchronized void createQuote(ReservationConstraints constraint, String rentalName){
 		try {
 			RentalAgencyManager ram;
-			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencyManager");
 			ICarRentalCompany crc = ram.getCarRentalCompany(rentalName);
 			Quote quote = crc.createQuote(constraint, clientName);
 			quotes.add(quote);
@@ -57,7 +57,7 @@ public class ReservationSession extends Session implements IReservationSession{
 		boolean failed = false;
 		RentalAgencyManager ram = null;
 		try {
-			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencyManager");
 		} catch (RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -102,7 +102,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	public CarType getCheapestCarType(Date start, Date end, String region){
 		try {
 			RentalAgencyManager ram;
-			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencyManager");
 			Collection<CarType> carTypes = new ArrayList<CarType>();
 			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
 				if (crc.getRegions().contains(region)) {
@@ -125,7 +125,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	public void checkForAvailableCarTypes(Date start, Date end){
 		try {
 			RentalAgencyManager ram;
-			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencyManager");
 			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
 				if (!crc.getAvailableCarTypes(start, end).isEmpty()) {
 					System.out.println("There is a car available between " + start.toString() + " and " + end.toString());

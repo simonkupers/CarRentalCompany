@@ -29,7 +29,7 @@ public class SessionManager implements ISessionManager {
 		ReservationSession reservationSession = new ReservationSession(clientName);
 		IReservationSession stub;
 		try {
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 			stub = (IReservationSession) UnicastRemoteObject.exportObject(reservationSession,0);
 			registry.rebind(clientName + "Reservation", stub);
 		} catch (RemoteException e) {
@@ -43,7 +43,7 @@ public class SessionManager implements ISessionManager {
 		ManagerSession managerSession = new ManagerSession(clientName, rentalName);
 		IManagerSession stub;
 		try{
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 			stub = (IManagerSession) UnicastRemoteObject.exportObject(managerSession, 0);
 			registry.rebind(clientName + "Manager", stub);
 		}catch(RemoteException e){

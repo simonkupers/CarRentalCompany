@@ -5,14 +5,17 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import rental.CarRentalCompany;
+import lib.IManagerSession;
 import lib.ISessionManager;
 import lib.ManagerSession;
 import lib.ReservationSession;
+import lib.SessionManager;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -39,15 +42,18 @@ public class Client extends AbstractTestManagement {
 		
 		
 		// An example making car rental companies with a ManagerSession
-		ManagerSession managerSession1 = (ManagerSession) client.getNewManagerSession("managerSession1", "Hertz");
+		IManagerSession managerSession1 = (IManagerSession) client.getNewManagerSession("managerSession1", "Hertz");
 		CrcData hertzData = RentalServer.loadData("hertz.csv");
 		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
-		managerSession1.register(hertz);
+		ICarRentalCompany stubHerz = (ICarRentalCompany) UnicastRemoteObject.exportObject(hertz, 0);
+		managerSession1.register(stubHerz);
 
-		ManagerSession managerSession2 = (ManagerSession) client.getNewManagerSession("managerSession2", "Dockx");
+		IManagerSession managerSession2 = (IManagerSession) client.getNewManagerSession("managerSession2", "Dockx");
 		CrcData dockxData = RentalServer.loadData("dockx.csv");
+		
 		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
-		managerSession2.register(dockx);
+		ICarRentalCompany stubDockx = (ICarRentalCompany) UnicastRemoteObject.exportObject(dockx, 0);
+		managerSession2.register(stubDockx); 
 		
 		client.run();
 	}
@@ -58,25 +64,7 @@ public class Client extends AbstractTestManagement {
 	
 	public Client(String scriptFile, String carRentalCompanyName) {
 		super(scriptFile);
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			crc = (ICarRentalCompany) registry.lookup("crc");
-		} catch (AccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 		
 		
@@ -104,7 +92,7 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected Object getNewReservationSession(String name) throws Exception {
 		Registry registry = null;
-		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createReservationSession(name);
 		return registry.lookup(name + "Reservation");
@@ -113,7 +101,7 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
 		Registry registry = null;
-		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		registry = LocateRegistry.getRegistry("127.0.0.1",1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createManagerSession(name, carRentalName);
 		return registry.lookup(name + "Manager");
