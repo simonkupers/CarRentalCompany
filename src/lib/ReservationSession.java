@@ -36,7 +36,7 @@ public class ReservationSession extends Session implements IReservationSession{
 		}
 	}
 
-	public synchronized void createQuote(ReservationConstraints constraint, String clientName){
+	public synchronized void createQuote(ReservationConstraints constraint, String clientName) throws ReservationException{
 		try {
 			IRentalAgencyManager ram;
 			ram = (IRentalAgencyManager) registry.lookup("rentalAgencyManager");
@@ -55,6 +55,7 @@ public class ReservationSession extends Session implements IReservationSession{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		throw new ReservationException("Could not make reservation");
 	}
 
 	public List<Quote> getCurrentQuotes(){
