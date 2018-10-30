@@ -16,6 +16,7 @@ import rental.Car;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
+import rental.Reservation;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
@@ -34,40 +35,54 @@ public class ReservationSession extends Session implements IReservationSession{
 		}
 	}
 
-	public void createQuote(ReservationConstraints constraint){
-
+	public void createQuote(ReservationConstraints constraint, String rentalName){
 		try {
 			RentalAgencyManager ram;
 			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
-			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
-				Quote quote = crc.createQuote(constraint, clientName);
+			ICarRentalCompany crc = ram.getCarRentalCompany(rentalName);
+			Quote quote;
+			
+				quote = crc.createQuote(constraint, clientName);
 				quotes.add(quote);
-				return;
+			} catch (RemoteException | ReservationException| NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (RemoteException | NotBoundException | ReservationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+				
+
+
 	}
 
 	public List<Quote> getCurrentQuotes(){
 		return quotes;
 	}
 
-	public synchronized void confirmQuotes(){
+	public synchronized List<Reservation> confirmQuotes(){
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		boolean failed = false;
 		RentalAgencyManager ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
 		for(Quote quote:quotes){
 			ICarRentalCompany crc = ram.getCarRentalCompany(quote.getRentalCompany());
 			try {
 				if(!crc.isAvailable(quote.getCarType(), quote.getStartDate(), quote.getEndDate())){
-					throw new ReservationException("Reservation for carType " + quote.getCarType() + "failed");
+					failed = true;
 					quotes.clear();
 				}
-			} catch (RemoteException) {
+			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		if(failed)
+			throw new ReservationException("Reservation for carType " + quote.getCarType() + "failed");
+		//checked up top if they are available and full method is sync so it should not be possible to throw a
+		//reservationException at this point!
+		for(Quote quote:quotes){
+			ICarRentalCompany crc = ram.getCarRentalCompany(quote.getRentalCompany());
+			reservations.add(crc.confirmQuote(quote));
+		}
+		return reservations;
 
 	}
 

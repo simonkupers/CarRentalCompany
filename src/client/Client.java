@@ -131,15 +131,14 @@ public class Client extends AbstractTestManagement {
 			throws Exception {
 		ReservationSession reservationSession = (ReservationSession) session;
 		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
-		reservationSession.createQuote(constraints);
+		reservationSession.createQuote(constraints, name);
 		
 	}
 
 	@Override
-	protected List confirmQuotes(Object session, String name) throws Exception {
+	protected List<Reservation> confirmQuotes(Object session, String name) throws Exception {
 		ReservationSession reservationSession = (ReservationSession) session;
-		reservationSession.confirmQuotes();
-		return null;
+		return reservationSession.confirmQuotes();
 	}
 
 	@Override

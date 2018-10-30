@@ -9,16 +9,17 @@ import java.util.logging.Level;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
+import rental.Reservation;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
 public interface IReservationSession extends ISession{
 	
-	public void createQuote(ReservationConstraints constraint);
+	public void createQuote(ReservationConstraints constraint, String rentalName);
 	
 	public List<Quote> getCurrentQuotes();
 	
-	public void confirmQuotes();
+	public List<Reservation> confirmQuotes();
 	
 	public List<CarType> getAvailableCarTypes();
 
