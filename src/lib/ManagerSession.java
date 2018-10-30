@@ -32,20 +32,11 @@ public class ManagerSession extends Session implements IManagerSession {
 		
 	}
 	
-	public void register(ICarRentalCompany carRentalCompany, String name) {
-		ICarRentalCompany stub;
-		try {
-			stub = (ICarRentalCompany) UnicastRemoteObject.exportObject(carRentalCompany, 0);
-			registry.rebind(name, stub);
-			ram.addCarRentalCompany(carRentalCompany);		
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	public void register(CarRentalCompany carRentalCompany) {
+		ram.addCarRentalCompany(carRentalCompany);
 	}
 
-	public void unRegister(ICarRentalCompany carRentalCompany) {
+	public void unRegister(CarRentalCompany carRentalCompany) {
 		ram.removeCarRentalCompany(carRentalCompany);
 	}
 	
