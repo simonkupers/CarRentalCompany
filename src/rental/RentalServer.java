@@ -32,13 +32,31 @@ public class RentalServer {
 
 		// create a manager session and register Hertz and Docks as car rental companies
 
+<<<<<<< HEAD
 		
 		SessionManager sessionManager = new SessionManager();
 		ISessionManager sessionManagerStub =
 				(ISessionManager) UnicastRemoteObject.exportObject(sessionManager, 0);
 		registry.rebind("sessionManagerStub", sessionManagerStub);
+=======
+		SessionManager sessionManager = new SessionManager();
+		ISessionManager sessionStub = (ISessionManager) UnicastRemoteObject.exportObject(sessionManager, 0);
+		registry.rebind("sessionManagerStub", sessionStub);
+>>>>>>> branch 'master' of https://github.com/simonkupers/CarRentalCompany.git
 
+<<<<<<< HEAD
+=======
+		/*CrcData hertzData = loadData("hertz.csv");
+		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
+		managerSession.register(hertz);
+>>>>>>> branch 'master' of https://github.com/simonkupers/CarRentalCompany.git
 
+<<<<<<< HEAD
+=======
+		CrcData dockxData = loadData("dockx.csv");
+		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
+		managerSession.register(dockx); */
+>>>>>>> branch 'master' of https://github.com/simonkupers/CarRentalCompany.git
 	}
 
 	public static CrcData loadData(String datafile) throws ReservationException, NumberFormatException, IOException {

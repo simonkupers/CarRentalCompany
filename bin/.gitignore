@@ -1,6 +1,11 @@
 /rental/
+<<<<<<< HEAD
 /lib/
 <<<<<<< HEAD
 =======
 /client/
 >>>>>>> refs/remotes/CarRentalCompany/develop
+=======
+/client/
+/lib/
+>>>>>>> branch 'master' of https://github.com/simonkupers/CarRentalCompany.git
