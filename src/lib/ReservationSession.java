@@ -54,8 +54,20 @@ public class ReservationSession extends Session implements IReservationSession{
 		return quotes;
 	}
 
-	public void confirmQuotes(){
-		//TODO: THIs.
+	public synchronized void confirmQuotes(){
+		RentalAgencyManager ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+		for(Quote quote:quotes){
+			ICarRentalCompany crc = ram.getCarRentalCompany(quote.getRentalCompany());
+			try {
+				if(!crc.isAvailable(quote.getCarType(), quote.getStartDate(), quote.getEndDate())){
+					throw new ReservationException("Reservation for carType " + quote.getCarType() + "failed");
+					quotes.clear();
+				}
+			} catch (RemoteException) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 

@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 import java.util.Set;
 
 import rental.CarRentalCompany;
+import rental.CarType;
 import rental.ICarRentalCompany;
 
 public interface IManagerSession extends ISession {
@@ -20,5 +21,7 @@ public interface IManagerSession extends ISession {
 	public int getNumberOfReservationsBy(String client);
 	
 	public int getNumberOfReservationsForCarType(String carRentalName, String carType);
+	
+	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year);
 	
 }

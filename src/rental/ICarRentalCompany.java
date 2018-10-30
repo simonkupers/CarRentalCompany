@@ -29,4 +29,6 @@ public interface ICarRentalCompany extends Remote {
 	
 	public List<String> getBestClients();
 	
+	public CarType getMostPopularCarTypeIn(int year);
+	
 }

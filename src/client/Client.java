@@ -96,8 +96,9 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ManagerSession managerSession = (ManagerSession) ms;
+		return managerSession.getMostPopularCarTypeIn(carRentalCompanyName, year);
+		
 	}
 
 	@Override
@@ -135,7 +136,8 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected List confirmQuotes(Object session, String name) throws Exception {
-		// TODO Auto-generated method stub
+		ReservationSession reservationSession = (ReservationSession) session;
+		reservationSession.confirmQuotes();
 		return null;
 	}
 

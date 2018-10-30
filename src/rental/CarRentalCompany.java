@@ -227,5 +227,22 @@ public class CarRentalCompany implements ICarRentalCompany {
         return bestClients;
 		
 	}
+	
+	@SuppressWarnings("deprecation")
+	public CarType getMostPopularCarTypeIn(int year){
+		Map<CarType,Integer> maxMap = new HashMap<CarType,Integer>();
+		for(Car car:cars){
+			for(Reservation reservation:car.getReservations()){
+				if(reservation.getStartDate().getYear() == year)
+					if(maxMap.containsKey(car.getType()))
+						maxMap.put(car.getType(), maxMap.get(car.getType())+1);
+					else
+						maxMap.put(car.getType(), 0);
+				
+			}
+		}
+		CarType key = Collections.max(maxMap.entrySet(), Map.Entry.comparingByValue()).getKey();
+		return (CarType) key;
+	}
 
 }
