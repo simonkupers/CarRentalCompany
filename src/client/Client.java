@@ -114,6 +114,7 @@ public class Client extends AbstractTestManagement {
 		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createManagerSession(name, carRentalName);
+		
 		return registry.lookup(name + "Manager");
 	}
 
