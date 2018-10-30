@@ -41,7 +41,7 @@ public class ReservationSession extends Session implements IReservationSession{
 			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
 			ICarRentalCompany crc = ram.getCarRentalCompany(rentalName);
 			Quote quote;
-			
+				
 				quote = crc.createQuote(constraint, clientName);
 				quotes.add(quote);
 			} catch (RemoteException | ReservationException| NotBoundException e) {
@@ -57,10 +57,17 @@ public class ReservationSession extends Session implements IReservationSession{
 		return quotes;
 	}
 
-	public synchronized List<Reservation> confirmQuotes(){
+	public synchronized List<Reservation> confirmQuotes() throws ReservationException{
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		boolean failed = false;
-		RentalAgencyManager ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+		RentalAgencyManager ram = null;
+		try {
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+		} catch (RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		for(Quote quote:quotes){
 			ICarRentalCompany crc = ram.getCarRentalCompany(quote.getRentalCompany());
 			try {
@@ -68,19 +75,24 @@ public class ReservationSession extends Session implements IReservationSession{
 					failed = true;
 					quotes.clear();
 				}
-			} catch (RemoteException e) {
+			} catch(RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
 		if(failed)
-			throw new ReservationException("Reservation for carType " + quote.getCarType() + "failed");
+			throw new ReservationException("Reservation failed");
 		//checked up top if they are available and full method is sync so it should not be possible to throw a
 		//reservationException at this point!
 		for(Quote quote:quotes){
 			ICarRentalCompany crc = ram.getCarRentalCompany(quote.getRentalCompany());
-			reservations.add(crc.confirmQuote(quote));
+			try {
+				reservations.add(crc.confirmQuote(quote));
+			} catch (RemoteException | ReservationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return reservations;
 
