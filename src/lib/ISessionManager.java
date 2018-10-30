@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public interface ISessionManager extends Remote {
 	
-	public void addSession(Session session);
+	public void createReservationSession(String clientName);
 	
-	public void removeSession(Session session);
+	public void createManagerSession(String clientName, String rentalName);
 	
 }
