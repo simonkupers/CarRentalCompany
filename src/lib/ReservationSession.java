@@ -23,17 +23,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	
 	
 	public void createQuote(ReservationConstraints constraint){
-		RentalAgencyManager rcm = RentalAgencyManager.getRentalAgencyManager();
-		for(ICarRentalCompany crc: rcm.getCarRentalCompanies()){
-			try {
-				Quote quote = crc.createQuote(constraint, clientName);
-				quotes.add(quote);
-				return;
-			} catch (RemoteException | ReservationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	
 	}
 	
 	public List<Quote> getCurrentQuotes(){

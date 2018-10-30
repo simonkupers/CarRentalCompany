@@ -43,5 +43,31 @@ public class ManagerSession extends Session implements IManagerSession {
 	public CarRentalCompany createCarRentalCompany(){
 		return null;
 	}
+
+	@Override
+	public int getNumberOfReservationsBy(String client) {
+		int reservations = 0;
+		for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
+			try {
+				reservations += crc.getReservationsByRenter(client).size();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return reservations;
+	}
+
+	@Override
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType) {
+		int reservations = 0;
+		for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
+			try{
+				if(crc.getName().equals(carRentalName))
+					return crc.getNumberOfReservationsForCarType(carType);
+			}
+		}
+		return 0;
+	}
 	
 }
