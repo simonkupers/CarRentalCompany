@@ -45,7 +45,7 @@ public class ReservationSession extends Session implements IReservationSession{
 				Quote quote = crc.createQuote(constraint, clientName);
 				quotes.add(quote);
 				return;
-				}catch(ReservationException e){
+				}catch(ReservationException | IllegalArgumentException e){
 					
 				}
 				

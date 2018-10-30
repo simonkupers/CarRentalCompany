@@ -233,7 +233,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		Map<CarType,Integer> maxMap = new HashMap<CarType,Integer>();
 		for(Car car:cars){
 			for(Reservation reservation:car.getReservations()){
-				if(reservation.getStartDate().getYear() == year)
+				if(reservation.getStartDate().getYear() + 1900 == year)
 					if(maxMap.containsKey(car.getType()))
 						maxMap.put(car.getType(), maxMap.get(car.getType())+1);
 					else
@@ -241,8 +241,11 @@ public class CarRentalCompany implements ICarRentalCompany {
 				
 			}
 		}
+		if(maxMap.isEmpty()) return null;
 		CarType key = Collections.max(maxMap.entrySet(), Map.Entry.comparingByValue()).getKey();
 		return (CarType) key;
 	}
+	
+
 
 }
