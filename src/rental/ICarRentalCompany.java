@@ -2,6 +2,7 @@ package rental;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -22,5 +23,9 @@ public interface ICarRentalCompany extends Remote {
 	public int getNumberOfReservationsForCarType(String carType) throws RemoteException;
 	
 	public String getName() throws RemoteException;
+	
+	public Collection<CarType> getAllCarTypes() throws RemoteException;
+	
+	public List<String> getRegions();
 	
 }

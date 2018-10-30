@@ -22,6 +22,6 @@ public interface IReservationSession extends ISession{
 	
 	public List<CarType> getAvailableCarTypes();
 
-	public CarType getCheapestCarType();
+	public CarType getCheapestCarType(Date start, Date end, String region);
 
 }
