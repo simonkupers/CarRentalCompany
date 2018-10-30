@@ -12,8 +12,8 @@ public interface IManagerSession extends ISession {
 	
 	public void getBestClient();
 	
-	public void register(CarRentalCompany carRentalCompany);
+	public void register(ICarRentalCompany carRentalCompany);
 
-	public void unRegister(CarRentalCompany carRentalCompany);
+	public void unRegister(ICarRentalCompany carRentalCompany);
 	
 }
