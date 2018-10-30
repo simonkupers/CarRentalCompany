@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashSet;
+import java.util.Set;
 
 import rental.CarRentalCompany;
 import rental.ICarRentalCompany;
@@ -27,8 +29,13 @@ public class ManagerSession extends Session implements IManagerSession {
 		this.carRentalName = carRentalName;
 	}
 	
-	public void getBestClient(){
-		//TODO
+	public Set<String> getBestClients(){
+		Set<String> clients = new HashSet<String>();
+		for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
+			clients.addAll(crc.getBestClients());
+			
+		}
+		return clients;
 		
 	}
 	

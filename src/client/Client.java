@@ -84,8 +84,9 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected Set<String> getBestClients(Object ms) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ManagerSession managerSession = (ManagerSession) ms;
+		Set<String> bestClients = managerSession.getBestClients();
+		return bestClients;
 	}
 
 	@Override

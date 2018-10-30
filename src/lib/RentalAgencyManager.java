@@ -6,7 +6,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import rental.CarRentalCompany;
 import rental.ICarRentalCompany;
@@ -47,6 +49,14 @@ public class RentalAgencyManager implements IRentalAgencyManager{
 		}
 		return null;
 		
+	}
+	
+	public Set<String> getBetsClients(){
+		Set<String> clients = new HashSet<String>();
+		for(ICarRentalCompany crc:crcs){
+			clients.addAll(crc.getBestClients());
+		}
+		return clients;
 	}
 	
 	public List<ICarRentalCompany> getCarRentalCompanies(){

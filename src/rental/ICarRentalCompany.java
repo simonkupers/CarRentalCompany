@@ -23,4 +23,6 @@ public interface ICarRentalCompany extends Remote {
 	
 	public String getName() throws RemoteException;
 	
+	public List<String> getBestClients();
+	
 }
