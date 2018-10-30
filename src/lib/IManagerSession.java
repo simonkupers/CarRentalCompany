@@ -12,16 +12,16 @@ import rental.ICarRentalCompany;
 
 public interface IManagerSession extends ISession {
 	
-	public Set<String> getBestClients();
+	public Set<String> getBestClients() throws RemoteException;
 	
-	public void register(ICarRentalCompany carRentalCompany);
+	public void register(ICarRentalCompany carRentalCompany) throws RemoteException;
 
-	public void unRegister(ICarRentalCompany carRentalCompany);
+	public void unRegister(ICarRentalCompany carRentalCompany) throws RemoteException;
 	
-	public int getNumberOfReservationsBy(String client);
+	public int getNumberOfReservationsBy(String client) throws RemoteException;
 	
-	public int getNumberOfReservationsForCarType(String carRentalName, String carType);
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType) throws RemoteException;
 	
-	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year);
+	public CarType getMostPopularCarTypeIn(String carRentalCompanyName, int year) throws RemoteException;
 	
 }

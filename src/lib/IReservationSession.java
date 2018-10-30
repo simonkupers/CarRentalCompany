@@ -15,14 +15,14 @@ import rental.ReservationException;
 
 public interface IReservationSession extends ISession{
 	
-	public void createQuote(ReservationConstraints constraint, String rentalName);
+	public void createQuote(ReservationConstraints constraint, String rentalName) throws RemoteException;
 	
-	public List<Quote> getCurrentQuotes();
+	public List<Quote> getCurrentQuotes() throws RemoteException;
 	
-	public List<Reservation> confirmQuotes() throws ReservationException;
+	public List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
 	
-	public List<CarType> getAvailableCarTypes();
+	public List<CarType> getAvailableCarTypes()throws RemoteException;
 
-	public CarType getCheapestCarType(Date start, Date end, String region);
+	public CarType getCheapestCarType(Date start, Date end, String region)throws RemoteException;
 
 }

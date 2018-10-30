@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class SessionManager implements Remote {
+public class SessionManager implements ISessionManager {
 	
 	
 	public void createReservationSession(String clientName){
