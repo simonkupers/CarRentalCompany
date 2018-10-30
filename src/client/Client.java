@@ -9,8 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-
 import rental.CarRentalCompany;
+import lib.ISessionManager;
+import lib.ManagerSession;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -29,22 +30,24 @@ public class Client extends AbstractTestManagement {
 	
 	public static void main(String[] args) throws Exception {
 		System.setSecurityManager(null);
-		
-		// An example making car rental companies
-		CrcData hertzData = RentalServer.loadData("hertz.csv");
-		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
-		managerSession.register(hertz);
-
-		CrcData dockxData = RentalServer.loadData("dockx.csv");
-		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
-		managerSession.register(dockx);
-		
-		
-		
+				
 		String carRentalCompanyName = "Hertz";
 		
 		// An example reservation scenario on car rental company 'Hertz' would be...
 		Client client = new Client("simpleTrips", carRentalCompanyName);
+		
+		
+		// An example making car rental companies with a ManagerSession
+		ManagerSession managerSession1 = (ManagerSession) client.getNewManagerSession("managerSession1", "Hertz");
+		CrcData hertzData = RentalServer.loadData("hertz.csv");
+		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
+		managerSession1.register(hertz);
+
+		ManagerSession managerSession2 = (ManagerSession) client.getNewManagerSession("managerSession2", "Dockx");
+		CrcData dockxData = RentalServer.loadData("dockx.csv");
+		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
+		managerSession2.register(dockx);
+		
 		client.run();
 	}
 	
@@ -73,6 +76,9 @@ public class Client extends AbstractTestManagement {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+		
 	}
 
 	@Override
@@ -95,14 +101,20 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected Object getNewReservationSession(String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Registry registry = null;
+		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
+		sessionManager.createReservationSession(name);
+		return registry.lookup(name + "Reservation");
 	}
 
 	@Override
 	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Registry registry = null;
+		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
+		sessionManager.createManagerSession(name, carRentalName);
+		return registry.lookup(name + "Manager");
 	}
 
 	@Override
