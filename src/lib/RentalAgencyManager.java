@@ -29,11 +29,11 @@ public class RentalAgencyManager implements IRentalAgencyManager{
 	private List<ICarRentalCompany> crcs = new ArrayList<ICarRentalCompany>();
 	
 	
-	public void addCarRentalCompany(ICarRentalCompany crc){
+	public synchronized void addCarRentalCompany(ICarRentalCompany crc){
 		crcs.add(crc);
 	}
 	
-	public void removeCarRentalCompany(ICarRentalCompany crc){
+	public synchronized void removeCarRentalCompany(ICarRentalCompany crc){
 		crcs.remove(crc);
 	}
 	

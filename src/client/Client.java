@@ -85,14 +85,13 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected Set<String> getBestClients(Object ms) throws Exception {
 		ManagerSession managerSession = (ManagerSession) ms;
-		Set<String> bestClients = managerSession.getBestClients();
-		return bestClients;
+		return managerSession.getBestClients();
 	}
 
 	@Override
 	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
 		ReservationSession reservationSession = (ReservationSession)session;
-		return reservationSession.getCheapestCarType(start, end, region).toString();
+		return reservationSession.getCheapestCarType(start, end, region).getName();
 	}
 
 	@Override

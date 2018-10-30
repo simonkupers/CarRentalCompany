@@ -36,7 +36,6 @@ public class ManagerSession extends Session implements IManagerSession {
 			
 		}
 		return clients;
-		
 	}
 	
 	public void register(ICarRentalCompany carRentalCompany) {
@@ -45,10 +44,6 @@ public class ManagerSession extends Session implements IManagerSession {
 
 	public void unRegister(ICarRentalCompany carRentalCompany) {
 		ram.removeCarRentalCompany(carRentalCompany);
-	}
-	
-	public CarRentalCompany createCarRentalCompany(){
-		return null;
 	}
 
 	@Override
