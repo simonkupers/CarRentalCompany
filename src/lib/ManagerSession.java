@@ -32,11 +32,11 @@ public class ManagerSession extends Session implements IManagerSession {
 		
 	}
 	
-	public void register(CarRentalCompany carRentalCompany) {
+	public void register(ICarRentalCompany carRentalCompany) {
 		ram.addCarRentalCompany(carRentalCompany);
 	}
 
-	public void unRegister(CarRentalCompany carRentalCompany) {
+	public void unRegister(ICarRentalCompany carRentalCompany) {
 		ram.removeCarRentalCompany(carRentalCompany);
 	}
 	

@@ -1,23 +1,28 @@
 package lib;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import rental.CarRentalCompany;
 import rental.ICarRentalCompany;
 
 public class RentalAgencyManager implements IRentalAgencyManager{
 	
-	private static RentalAgencyManager ram = null;
+	Registry registry;
 	
-	public RentalAgencyManager(){};
-	
-	public static RentalAgencyManager getRentalAgencyManager(){
-		if(ram == null){
-			ram = new RentalAgencyManager();
+	public RentalAgencyManager(){
+		try {
+			registry = LocateRegistry.getRegistry();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return ram;
-	}
+	};
 	
 	private List<ICarRentalCompany> crcs = new ArrayList<ICarRentalCompany>();
 	

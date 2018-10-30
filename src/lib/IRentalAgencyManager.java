@@ -5,11 +5,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rental.CarRentalCompany;
 import rental.ICarRentalCompany;
 
 public interface IRentalAgencyManager extends Remote {
 	
-	public void addCarRentalCompany(ICarRentalCompany crc);
+	public void addCarRentalCompany(CarRentalCompany crc);
 	
 	public ICarRentalCompany getCarRentalCompany(String name);
 	
