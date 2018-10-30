@@ -10,11 +10,11 @@ import rental.ICarRentalCompany;
 
 public interface IRentalAgencyManager extends Remote {
 	
-	public void addCarRentalCompany(ICarRentalCompany crc);
+	public void addCarRentalCompany(ICarRentalCompany crc) throws RemoteException;
 	
-	public void removeCarRentalCompany(ICarRentalCompany crc);
+	public void removeCarRentalCompany(ICarRentalCompany crc)throws RemoteException;
 	
-	public ICarRentalCompany getCarRentalCompany(String name);
+	public ICarRentalCompany getCarRentalCompany(String name)throws RemoteException;
 	
-	public List<ICarRentalCompany> getCarRentalCompanies();
+	public List<ICarRentalCompany> getCarRentalCompanies()throws RemoteException;
 }
