@@ -84,8 +84,9 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected Set<String> getBestClients(Object ms) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ManagerSession managerSession = (ManagerSession) ms;
+		Set<String> bestClients = managerSession.getBestClients();
+		return bestClients;
 	}
 
 	@Override
@@ -127,7 +128,9 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
 			throws Exception {
-		// TODO Auto-generated method stub
+		ReservationSession reservationSession = (ReservationSession) session;
+		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
+		reservationSession.createQuote(constraints);
 		
 	}
 
@@ -139,13 +142,15 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected int getNumberOfReservationsBy(Object ms, String clientName) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		ManagerSession managerSession = (ManagerSession) ms;
+		return managerSession.getNumberOfReservationsBy(clientName);
+		
 	}
 
 	@Override
 	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		// TODO Auto-generated method stub
+		ManagerSession managerSession = (ManagerSession) ms;
+		managerSession.getNumberOfReservationsForCarType(carRentalName, carType);
 		return 0;
 	}
 

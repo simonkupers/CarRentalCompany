@@ -35,6 +35,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	}
 
 	public void createQuote(ReservationConstraints constraint){
+
 		try {
 			RentalAgencyManager ram;
 			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");

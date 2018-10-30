@@ -2,12 +2,14 @@ package rental;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -202,6 +204,28 @@ public class CarRentalCompany implements ICarRentalCompany {
 
 		}
 		return amount;
+	}
+	
+	//returns highest client
+	public List<String> getBestClients(){
+		HashMap<String,Integer> reservations = new HashMap<String, Integer>();
+		for(Car car:cars){
+			for(Reservation reservation:car.getReservations()){
+				if(reservations.containsKey(reservation.getCarRenter()))
+					reservations.put(reservation.getCarRenter(),reservations.get(reservation.getCarRenter())+1);
+				else
+					reservations.put(reservation.getCarRenter(),1);
+			}
+		}
+		List<String> bestClients = new ArrayList<String>();
+		int maxValueInMap=(Collections.max(reservations.values()));  // This will return max value in the Hashmap
+        for (Entry<String, Integer> entry : reservations.entrySet()) {  // Iterate through hashmap
+            if (entry.getValue()==maxValueInMap) {
+                bestClients.add(entry.getKey());
+            }
+        }
+        return bestClients;
+		
 	}
 
 }
