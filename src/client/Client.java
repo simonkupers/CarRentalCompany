@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import rental.CarRentalCompany;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
 import rental.Reservation;
 import rental.ReservationConstraints;
+import rental.RentalServer.CrcData;
+import rental.RentalServer;
 
 public class Client extends AbstractTestManagement {
 	
@@ -26,6 +29,17 @@ public class Client extends AbstractTestManagement {
 	
 	public static void main(String[] args) throws Exception {
 		System.setSecurityManager(null);
+		
+		// An example making car rental companies
+		CrcData hertzData = RentalServer.loadData("hertz.csv");
+		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
+		managerSession.register(hertz);
+
+		CrcData dockxData = RentalServer.loadData("dockx.csv");
+		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
+		managerSession.register(dockx);
+		
+		
 		
 		String carRentalCompanyName = "Hertz";
 		

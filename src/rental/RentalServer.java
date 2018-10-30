@@ -34,13 +34,7 @@ public class RentalServer {
 		IManagerSession sessionStub = (IManagerSession) UnicastRemoteObject.exportObject(managerSession, 0);
 		registry.rebind("originalManagerSession", sessionStub);
 
-		CrcData hertzData = loadData("hertz.csv");
-		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
-		managerSession.register(hertz);
 
-		CrcData dockxData = loadData("dockx.csv");
-		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
-		managerSession.register(dockx);
 	}
 
 	public static CrcData loadData(String datafile) throws ReservationException, NumberFormatException, IOException {
@@ -84,7 +78,7 @@ public class RentalServer {
 		return out;
 	}
 
-	static class CrcData {
+	public static class CrcData {
 		public List<Car> cars = new LinkedList<Car>();
 		public String name;
 		public List<String> regions = new LinkedList<String>();
