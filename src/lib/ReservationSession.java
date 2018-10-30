@@ -35,22 +35,17 @@ public class ReservationSession extends Session implements IReservationSession{
 		}
 	}
 
-	public void createQuote(ReservationConstraints constraint, String rentalName){
+	public synchronized void createQuote(ReservationConstraints constraint, String rentalName){
 		try {
 			RentalAgencyManager ram;
 			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
 			ICarRentalCompany crc = ram.getCarRentalCompany(rentalName);
-			Quote quote;
-			
-				quote = crc.createQuote(constraint, clientName);
-				quotes.add(quote);
-			} catch (RemoteException | ReservationException| NotBoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				
-
-
+			Quote quote = crc.createQuote(constraint, clientName);
+			quotes.add(quote);
+		} catch (RemoteException | ReservationException| NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List<Quote> getCurrentQuotes(){
@@ -73,7 +68,7 @@ public class ReservationSession extends Session implements IReservationSession{
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(failed)
 			throw new ReservationException("Reservation for carType " + quote.getCarType() + "failed");
 		//checked up top if they are available and full method is sync so it should not be possible to throw a
@@ -107,14 +102,14 @@ public class ReservationSession extends Session implements IReservationSession{
 					.min(Comparator.comparing(CarType::getRentalPricePerDay))
 					.orElseThrow(NoSuchElementException::new);
 			return cheapestType;
-			
+
 		} catch (RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public void checkForAvailableCarTypes(Date start, Date end){
 		try {
 			RentalAgencyManager ram;
@@ -125,7 +120,7 @@ public class ReservationSession extends Session implements IReservationSession{
 				}
 			}
 			System.out.println("There is no car available between " + start.toString() + " and " + end.toString());
-			
+
 		} catch (RemoteException | NotBoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

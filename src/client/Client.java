@@ -130,12 +130,7 @@ public class Client extends AbstractTestManagement {
 			throws Exception {
 		ReservationSession reservationSession = (ReservationSession) session;
 		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
-<<<<<<< HEAD
-		reservationSession.createQuote(constraints);
-=======
 		reservationSession.createQuote(constraints, name);
-		
->>>>>>> branch 'master' of https://github.com/simonkupers/CarRentalCompany.git
 	}
 
 	@Override
