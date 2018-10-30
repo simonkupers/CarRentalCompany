@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import rental.CarRentalCompany;
 import lib.ISessionManager;
 import lib.ManagerSession;
+import lib.ReservationSession;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -89,8 +90,8 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ReservationSession reservationSession = (ReservationSession)session;
+		return reservationSession.getCheapestCarType().toString();
 	}
 
 	@Override
@@ -114,7 +115,6 @@ public class Client extends AbstractTestManagement {
 		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
 		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
 		sessionManager.createManagerSession(name, carRentalName);
-		
 		return registry.lookup(name + "Manager");
 	}
 
