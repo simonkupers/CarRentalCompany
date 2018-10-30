@@ -98,8 +98,8 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected CarType getMostPopularCarTypeIn(Object ms, String carRentalCompanyName, int year) throws Exception {
 		ManagerSession managerSession = (ManagerSession) ms;
-		managerSession.getMostPopularCarTypeIn(carRentalCompanyName, year);
-		return null;
+		return managerSession.getMostPopularCarTypeIn(carRentalCompanyName, year);
+		
 	}
 
 	@Override
