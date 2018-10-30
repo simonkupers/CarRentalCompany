@@ -16,4 +16,8 @@ public interface IManagerSession extends ISession {
 
 	public void unRegister(ICarRentalCompany carRentalCompany);
 	
+	public int getNumberOfReservationsBy(String client);
+	
+	public int getNumberOfReservationsForCarType(String carRentalName, String carType);
+	
 }

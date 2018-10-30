@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import rental.CarRentalCompany;
 import lib.ISessionManager;
 import lib.ManagerSession;
+import lib.ReservationSession;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -127,7 +128,9 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected void addQuoteToSession(Object session, String name, Date start, Date end, String carType, String region)
 			throws Exception {
-		// TODO Auto-generated method stub
+		ReservationSession reservationSession = (ReservationSession) session;
+		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
+		reservationSession.createQuote(constraints);
 		
 	}
 
@@ -139,13 +142,15 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected int getNumberOfReservationsBy(Object ms, String clientName) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		ManagerSession managerSession = (ManagerSession) ms;
+		return managerSession.getNumberOfReservationsBy(clientName);
+		
 	}
 
 	@Override
 	protected int getNumberOfReservationsForCarType(Object ms, String carRentalName, String carType) throws Exception {
-		// TODO Auto-generated method stub
+		ManagerSession managerSession = (ManagerSession) ms;
+		managerSession.getNumberOfReservationsForCarType(carRentalName, carType);
 		return 0;
 	}
 
