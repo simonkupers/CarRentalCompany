@@ -131,7 +131,6 @@ public class Client extends AbstractTestManagement {
 		ReservationSession reservationSession = (ReservationSession) session;
 		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
 		reservationSession.createQuote(constraints);
-		
 	}
 
 	@Override
