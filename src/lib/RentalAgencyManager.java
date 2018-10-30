@@ -6,11 +6,11 @@ import java.util.List;
 
 import rental.ICarRentalCompany;
 
-public class RentalAgencyManager {
+public class RentalAgencyManager implements IRentalAgencyManager{
 	
 	private static RentalAgencyManager ram = null;
 	
-	private RentalAgencyManager(){};
+	public RentalAgencyManager(){};
 	
 	public static RentalAgencyManager getRentalAgencyManager(){
 		if(ram == null){
@@ -24,6 +24,10 @@ public class RentalAgencyManager {
 	
 	public void addCarRentalCompany(ICarRentalCompany crc){
 		crcs.add(crc);
+	}
+	
+	public void removeCarRentalCompany(ICarRentalCompany crc){
+		crcs.remove(crc);
 	}
 	
 	public ICarRentalCompany getCarRentalCompany(String name){
@@ -43,6 +47,7 @@ public class RentalAgencyManager {
 	public List<ICarRentalCompany> getCarRentalCompanies(){
 		return crcs;
 	}
+	
 	
 	
 	

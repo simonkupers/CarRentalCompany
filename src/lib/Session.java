@@ -2,7 +2,7 @@ package lib;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Session {
+public class Session implements ISession {
 	
 	private static final AtomicInteger count = new AtomicInteger(0); 
 	private final int Id;

@@ -12,7 +12,7 @@ import rental.Quote;
 import rental.ReservationConstraints;
 import rental.ReservationException;
 
-public class ReservationSession extends Session {
+public class ReservationSession extends Session implements IReservationSession{
 	
 	private List<Quote> quotes = new ArrayList<Quote>();
 	
@@ -45,7 +45,16 @@ public class ReservationSession extends Session {
 		
 	}
 	
-	
+	public List<CarType> getAvailableCarTypes(){
+		
+		//TODO: THIs.
+		return null;
+	}
 
+	public CarType getCheapestCarType(){
+		
+		//TODO: THIs.
+		return null;
+	}
 
 }

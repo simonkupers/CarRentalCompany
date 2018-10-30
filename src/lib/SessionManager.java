@@ -3,7 +3,7 @@ package lib;
 import java.util.List;
 import java.util.ArrayList;
 
-public class SessionManager {
+public class SessionManager implements ISessionManager {
 	
 	private List<Session> sessions = new ArrayList<Session>();
 	

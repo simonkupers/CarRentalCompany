@@ -3,6 +3,7 @@ package rental;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,18 +13,40 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import lib.IManagerSession;
+import lib.IRentalAgencyManager;
+import lib.ManagerSession;
+import lib.RentalAgencyManager;
+
 public class RentalServer {
 	
 	public static void main(String[] args) throws ReservationException,
 			NumberFormatException, IOException {
 		System.setSecurityManager(null);
-		CrcData data  = loadData("hertz.csv");
-		CarRentalCompany crc = new CarRentalCompany(data.name, data.regions, data.cars);
-		ICarRentalCompany stub =
-				(ICarRentalCompany) UnicastRemoteObject.exportObject(crc, 0);
+		RentalAgencyManager rentalAgencyManager = new RentalAgencyManager();
+		IRentalAgencyManager stub =
+				(IRentalAgencyManager) UnicastRemoteObject.exportObject(rentalAgencyManager, 0);
 		
 		Registry registry = LocateRegistry.getRegistry();
-		registry.rebind("crc", stub);
+		registry.rebind("rentalAgencyManager", stub);
+		
+		// create a manager session and register Hertz and Docks as car rental companies
+		
+		
+		
+		ManagerSession managerSession = new ManagerSession(null, null);
+		IManagerSession sessionStub =
+				(IManagerSession) UnicastRemoteObject.exportObject(managerSession, 0);
+		registry.rebind("originalManagerSession", sessionStub);
+		
+		
+		CrcData hertzData  = loadData("hertz.csv");		
+		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);
+		managerSession.register(hertz, "hertz");
+		
+		CrcData dockxData  = loadData("dockx.csv");
+		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
+		managerSession.register(dockx, "dockx");
 	}
 
 	public static CrcData loadData(String datafile)
