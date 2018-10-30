@@ -5,10 +5,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
+import rental.Car;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -29,8 +33,6 @@ public class ReservationSession extends Session implements IReservationSession{
 			e.printStackTrace();
 		}
 	}
-
-
 
 	public void createQuote(ReservationConstraints constraint){
 
@@ -63,10 +65,44 @@ public class ReservationSession extends Session implements IReservationSession{
 		return null;
 	}
 
-	public CarType getCheapestCarType(){
-
-		//TODO: THIs.
+	public CarType getCheapestCarType(Date start, Date end, String region){
+		try {
+			RentalAgencyManager ram;
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			Collection<CarType> carTypes = new ArrayList<CarType>();
+			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
+				if (crc.getRegions().contains(region)) {
+					carTypes.addAll(crc.getAvailableCarTypes(start, end));
+				}
+			}
+			CarType cheapestType = carTypes
+					.stream()
+					.min(Comparator.comparing(CarType::getRentalPricePerDay))
+					.orElseThrow(NoSuchElementException::new);
+			return cheapestType;
+			
+		} catch (RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		return null;
+	}
+	
+	public void checkForAvailableCarTypes(Date start, Date end){
+		try {
+			RentalAgencyManager ram;
+			ram = (RentalAgencyManager) registry.lookup("rentalAgencymanager");
+			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
+				if (!crc.getAvailableCarTypes(start, end).isEmpty()) {
+					System.out.println("There is a car available between " + start.toString() + " and " + end.toString());
+				}
+			}
+			System.out.println("There is no car available between " + start.toString() + " and " + end.toString());
+			
+		} catch (RemoteException | NotBoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 }

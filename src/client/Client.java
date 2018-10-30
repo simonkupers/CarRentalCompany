@@ -92,7 +92,7 @@ public class Client extends AbstractTestManagement {
 	@Override
 	protected String getCheapestCarType(Object session, Date start, Date end, String region) throws Exception {
 		ReservationSession reservationSession = (ReservationSession)session;
-		return reservationSession.getCheapestCarType().toString();
+		return reservationSession.getCheapestCarType(start, end, region).toString();
 	}
 
 	@Override
@@ -122,8 +122,8 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected void checkForAvailableCarTypes(Object session, Date start, Date end) throws Exception {
-		// TODO Auto-generated method stub
-		
+		ReservationSession reservationSession = (ReservationSession)session;
+		reservationSession.checkForAvailableCarTypes(start, end);
 	}
 
 	@Override
@@ -137,7 +137,8 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected List confirmQuotes(Object session, String name) throws Exception {
-		// TODO Auto-generated method stub
+		ReservationSession reservationSession = (ReservationSession) session;
+		reservationSession.confirmQuotes();
 		return null;
 	}
 
