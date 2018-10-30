@@ -19,7 +19,7 @@ public interface IReservationSession extends ISession{
 	
 	public List<Quote> getCurrentQuotes();
 	
-	public List<Reservation> confirmQuotes();
+	public List<Reservation> confirmQuotes() throws ReservationException;
 	
 	public List<CarType> getAvailableCarTypes();
 
