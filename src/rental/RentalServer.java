@@ -15,8 +15,10 @@ import java.util.logging.Level;
 
 import lib.IManagerSession;
 import lib.IRentalAgencyManager;
+import lib.ISessionManager;
 import lib.ManagerSession;
 import lib.RentalAgencyManager;
+import lib.SessionManager;
 
 public class RentalServer {
 
@@ -30,9 +32,11 @@ public class RentalServer {
 
 		// create a manager session and register Hertz and Docks as car rental companies
 
-		ManagerSession managerSession = new ManagerSession(null, null);
-		IManagerSession sessionStub = (IManagerSession) UnicastRemoteObject.exportObject(managerSession, 0);
-		registry.rebind("originalManagerSession", sessionStub);
+		
+		SessionManager sessionManager = new SessionManager();
+		ISessionManager sessionManagerStub =
+				(ISessionManager) UnicastRemoteObject.exportObject(sessionManager, 0);
+		registry.rebind("sessionManagerStub", sessionManagerStub);
 
 		CrcData hertzData = loadData("hertz.csv");
 		CarRentalCompany hertz = new CarRentalCompany(hertzData.name, hertzData.regions, hertzData.cars);

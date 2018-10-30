@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import lib.ISessionManager;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -81,14 +82,20 @@ public class Client extends AbstractTestManagement {
 
 	@Override
 	protected Object getNewReservationSession(String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Registry registry = null;
+		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
+		sessionManager.createReservationSession(name);
+		return registry.lookup(name + "Reservation");
 	}
 
 	@Override
 	protected Object getNewManagerSession(String name, String carRentalName) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Registry registry = null;
+		registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+		ISessionManager sessionManager = (ISessionManager) registry.lookup("sessionManagerStub");
+		sessionManager.createManagerSession(name, carRentalName);
+		return registry.lookup(name + "Manager");
 	}
 
 	@Override
