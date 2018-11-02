@@ -5,12 +5,19 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import rental.CarRentalCompany;
 import rental.CarType;
 import rental.ICarRentalCompany;
+import rental.Reservation;
 
 public class ManagerSession extends Session implements IManagerSession {
 	
@@ -32,16 +39,28 @@ public class ManagerSession extends Session implements IManagerSession {
 	
 	public Set<String> getBestClients(){
 		Set<String> clients = new HashSet<String>();
+		Map<String, Integer> reservaties = new HashMap<String,Integer>();
 		try {
 			for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
-				clients.addAll(crc.getBestClients());
-				
+				for(Reservation reservation:crc.getReservations()){
+					
+					if(!reservaties.containsKey(reservation.getCarRenter()))
+						reservaties.put(reservation.getCarRenter(),1);
+					else
+						reservaties.put(reservation.getCarRenter(), reservaties.get(reservation.getCarRenter())+1);
+				}
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return clients;
+		int maxValueInMap=(Collections.max(reservaties.values()));  // This will return max value in the Hashmap
+        for (Entry<String, Integer> entry : reservaties.entrySet()) {  // Iterate through hashmap
+            if (entry.getValue()==maxValueInMap) {
+            	clients.add(entry.getKey());
+            }
+        }
+        return clients;
 	}
 	
 	public void register(ICarRentalCompany carRentalCompany) {
@@ -67,12 +86,7 @@ public class ManagerSession extends Session implements IManagerSession {
 		int reservations = 0;
 		try {
 			for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
-				try {
-					reservations += crc.getReservationsByRenter(client).size();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				reservations += crc.getReservationsByRenter(client).size();
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -102,11 +116,6 @@ public class ManagerSession extends Session implements IManagerSession {
 		ICarRentalCompany crc = null;
 		try {
 			crc = ram.getCarRentalCompany(carRentalCompanyName);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			return crc.getMostPopularCarTypeIn(year);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

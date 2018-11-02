@@ -32,4 +32,6 @@ public interface ICarRentalCompany extends Remote {
 	
 	public CarType getMostPopularCarTypeIn(int year) throws RemoteException;
 	
+	public List<Reservation> getReservations() throws RemoteException;
+	
 }
