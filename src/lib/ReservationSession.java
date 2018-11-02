@@ -56,6 +56,29 @@ public class ReservationSession extends Session implements IReservationSession{
 		throw new ReservationException("Could not make reservation");
 	}
 
+	
+	@Override
+	public synchronized void createQuote(ReservationConstraints constraint, String clientName, String carRental) throws ReservationException{
+		try {
+			IRentalAgencyManager ram;
+			ram = (IRentalAgencyManager) registry.lookup("rentalAgencyManager");
+			ICarRentalCompany crc = ram.getCarRentalCompany(carRental);
+				try{
+				Quote quote = crc.createQuote(constraint, clientName);
+				quotes.add(quote);
+				return;
+				}catch(ReservationException | IllegalArgumentException e){
+					
+				}
+				
+			
+			
+		} catch (RemoteException| NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new ReservationException("Could not make reservation");
+	}
 	@Override
 	public List<Quote> getCurrentQuotes(){
 		return quotes;
@@ -140,6 +163,8 @@ public class ReservationSession extends Session implements IReservationSession{
 			for(ICarRentalCompany crc: ram.getCarRentalCompanies()){
 				if (!crc.getAvailableCarTypes(start, end).isEmpty()) {
 					System.out.println("There is a car available between " + start.toString() + " and " + end.toString());
+				}else{
+					System.out.println("Available cartypes: " + crc.toString());
 				}
 			}
 			System.out.println("There is no car available between " + start.toString() + " and " + end.toString());

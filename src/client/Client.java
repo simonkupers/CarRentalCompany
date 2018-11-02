@@ -124,6 +124,14 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
 		reservationSession.createQuote(constraints, name);
 	}
+	
+	protected void addQuoteToSession(IReservationSession session, String name, Date start, Date end, String carType, String region, String carRental)
+			throws Exception {
+		
+		IReservationSession reservationSession = (IReservationSession) session;
+		ReservationConstraints constraints = new ReservationConstraints(start,end, carType,region);
+		reservationSession.createQuote(constraints, name, carRental);
+	}
 
 	@Override
 	protected List<Reservation> confirmQuotes(IReservationSession session, String name) throws Exception {
