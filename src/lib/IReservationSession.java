@@ -17,6 +17,9 @@ public interface IReservationSession extends ISession{
 	
 	public void createQuote(ReservationConstraints constraint, String rentalName) throws RemoteException, ReservationException;
 	
+	public void createQuote(ReservationConstraints constraint, String rentalName, String carRentalCompany) throws RemoteException, ReservationException;
+
+	
 	public List<Quote> getCurrentQuotes() throws RemoteException;
 	
 	public List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
