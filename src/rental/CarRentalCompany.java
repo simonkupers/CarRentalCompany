@@ -124,7 +124,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 	 * RESERVATIONS *
 	 ****************/
 
-	public Quote createQuote(ReservationConstraints constraints, String client) throws ReservationException {
+	public synchronized Quote createQuote(ReservationConstraints constraints, String client) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Creating tentative reservation for {1} with constraints {2}",
 				new Object[] { name, client, constraints.toString() });
 
@@ -146,7 +146,7 @@ public class CarRentalCompany implements ICarRentalCompany {
 		return rentalPricePerDay * Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24D));
 	}
 
-	public Reservation confirmQuote(Quote quote) throws ReservationException {
+	public synchronized Reservation confirmQuote(Quote quote) throws ReservationException {
 		logger.log(Level.INFO, "<{0}> Reservation of {1}", new Object[] { name, quote.toString() });
 		List<Car> availableCars = getAvailableCars(quote.getCarType(), quote.getStartDate(), quote.getEndDate());
 		if (availableCars.isEmpty())

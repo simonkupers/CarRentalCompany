@@ -34,7 +34,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	}
 
 	@Override
-	public synchronized void createQuote(ReservationConstraints constraint, String clientName) throws ReservationException{
+	public void createQuote(ReservationConstraints constraint, String clientName) throws ReservationException{
 		try {
 			IRentalAgencyManager ram;
 			ram = (IRentalAgencyManager) registry.lookup("rentalAgencyManager");
@@ -62,7 +62,7 @@ public class ReservationSession extends Session implements IReservationSession{
 	}
 
 	@Override
-	public synchronized List<Reservation> confirmQuotes() throws ReservationException{
+	public List<Reservation> confirmQuotes() throws ReservationException{
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		boolean failed = false;
 		IRentalAgencyManager ram = null;
