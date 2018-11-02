@@ -21,7 +21,6 @@ public interface IReservationSession extends ISession{
 	
 	public List<Reservation> confirmQuotes() throws ReservationException, RemoteException;
 	
-	public List<CarType> getAvailableCarTypes()throws RemoteException;
 
 	public CarType getCheapestCarType(Date start, Date end, String region)throws RemoteException;
 	

@@ -61,14 +61,6 @@ public class ManagerSession extends Session implements IManagerSession {
             }
         }
         return clients;
-		/*try {
-			for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
-				clients.addAll(crc.getBestClients());
-			}
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
 	}
 	
 	public void register(ICarRentalCompany carRentalCompany) {
@@ -94,12 +86,7 @@ public class ManagerSession extends Session implements IManagerSession {
 		int reservations = 0;
 		try {
 			for(ICarRentalCompany crc:ram.getCarRentalCompanies()){
-				try {
-					reservations += crc.getReservationsByRenter(client).size();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				reservations += crc.getReservationsByRenter(client).size();
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -129,11 +116,6 @@ public class ManagerSession extends Session implements IManagerSession {
 		ICarRentalCompany crc = null;
 		try {
 			crc = ram.getCarRentalCompany(carRentalCompanyName);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			return crc.getMostPopularCarTypeIn(year);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

@@ -10,10 +10,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.logging.Level;
 
-import rental.Car;
-import rental.CarRentalCompany;
 import rental.CarType;
 import rental.ICarRentalCompany;
 import rental.Quote;
@@ -36,6 +33,7 @@ public class ReservationSession extends Session implements IReservationSession{
 		}
 	}
 
+	@Override
 	public synchronized void createQuote(ReservationConstraints constraint, String clientName) throws ReservationException{
 		try {
 			IRentalAgencyManager ram;
@@ -58,10 +56,12 @@ public class ReservationSession extends Session implements IReservationSession{
 		throw new ReservationException("Could not make reservation");
 	}
 
+	@Override
 	public List<Quote> getCurrentQuotes(){
 		return quotes;
 	}
 
+	@Override
 	public synchronized List<Reservation> confirmQuotes() throws ReservationException{
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		boolean failed = false;
@@ -76,12 +76,7 @@ public class ReservationSession extends Session implements IReservationSession{
 		for(Quote quote:quotes){
 			ICarRentalCompany crc = null;
 			try {
-				crc = (ICarRentalCompany) ram.getCarRentalCompany(quote.getRentalCompany());
-			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			try {
+				crc = ram.getCarRentalCompany(quote.getRentalCompany());
 				if(!crc.isAvailable(quote.getCarType(), quote.getStartDate(), quote.getEndDate())){
 					failed = true;
 					quotes.clear();
@@ -99,19 +94,11 @@ public class ReservationSession extends Session implements IReservationSession{
 		for(Quote quote:quotes){
 			ICarRentalCompany crc = null;
 			try {
-				crc = (ICarRentalCompany) ram.getCarRentalCompany(quote.getRentalCompany());
-			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			try {
-				try {
+				crc = ram.getCarRentalCompany(quote.getRentalCompany());
+	
 					reservations.add(crc.confirmQuote(quote));
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (ReservationException e) {
+
+			} catch (ReservationException | RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -120,12 +107,8 @@ public class ReservationSession extends Session implements IReservationSession{
 
 	}
 
-	public List<CarType> getAvailableCarTypes(){
 
-		//TODO: THIs.
-		return null;
-	}
-
+	@Override
 	public CarType getCheapestCarType(Date start, Date end, String region){
 		try {
 			IRentalAgencyManager ram;
@@ -149,6 +132,7 @@ public class ReservationSession extends Session implements IReservationSession{
 		return null;
 	}
 
+	@Override
 	public void checkForAvailableCarTypes(Date start, Date end){
 		try {
 			IRentalAgencyManager ram;

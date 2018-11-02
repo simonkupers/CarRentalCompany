@@ -55,7 +55,7 @@ public class Client extends AbstractTestManagement<IReservationSession, IManager
 		
 		CarRentalCompany dockx = new CarRentalCompany(dockxData.name, dockxData.regions, dockxData.cars);
 		ICarRentalCompany stubDockx = (ICarRentalCompany) UnicastRemoteObject.exportObject(dockx, 0);
-		managerSession2.register(stubDockx); 
+		managerSession2.register(stubDockx);  
 		
 		client.run();
 	}
